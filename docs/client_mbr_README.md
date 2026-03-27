@@ -23,14 +23,14 @@ This is the company's most significant client, with a wide variety of programs. 
           stg_client_mbr__program_nps --> client_mbr_summary
           stg_client_mbr__ccsp_aggregated --> client_mbr_summary  
   ```
-### `ccsp_learners`
+### `platform_learners`
 - **Dependencies**:
   ```mermaid
         graph LR
-          ccsp_learners["ccsp_learners"]
-          slv_ccsp_fellow_program_fact --> ccsp_learners
-          slv_ccsp_program_dim --> ccsp_learners
-          slv_ccsp_fellow_dim --> ccsp_learners
+          platform_learners["ccsp_learners"]
+          slv_platform_fellow_program_fact --> ccsp_learners
+          slv_platform_program_dim --> ccsp_learners
+          slv_platform_fellow_dim --> ccsp_learners
           slv_grading__grades_fact --> ccsp_learners
           brz_client_mbr__ccsp_program_names-mapping_sheet --> ccsp_learners
           slv_program_service__programs --> ccsp_learners
@@ -52,7 +52,7 @@ This is the company's most significant client, with a wide variety of programs. 
         hist_mbr_snapshot["hist_mbr_snapshot"]
         gld_client_mbr__client_mbr_summary --> hist_mbr_snapshot
         brz_client_mbr__backfill_sheet --> hist_mbr_snapshot
-        slv_airtable_programs__programs_dim --> hist_mbr_snapshot
+        slv_platform_programs__programs_dim --> hist_mbr_snapshot
         gld_client_mbr__certification_updates --> hist_mbr_snapshot
   ```
 
