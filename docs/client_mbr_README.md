@@ -27,13 +27,13 @@ This is the company's most significant client, with a wide variety of programs. 
 - **Dependencies**:
   ```mermaid
         graph LR
-          platform_learners["ccsp_learners"]
-          slv_platform_fellow_program_fact --> ccsp_learners
-          slv_platform_program_dim --> ccsp_learners
-          slv_platform_fellow_dim --> ccsp_learners
-          slv_grading__grades_fact --> ccsp_learners
-          brz_client_mbr__ccsp_program_names-mapping_sheet --> ccsp_learners
-          slv_program_service__programs --> ccsp_learners
+          platform_learners["platform_learners"]
+          slv_platform_fellow_program_fact --> platform_learners
+          slv_platform_program_dim --> platform_learners
+          slv_platform_fellow_dim --> platform_learners
+          slv_grading__grades_fact --> platform_learners
+          brz_client_mbr__platform_program_names-mapping --> platform_learners
+          slv_program_service__programs --> platform_learners
   ```
 
 ### `certification_updates`
