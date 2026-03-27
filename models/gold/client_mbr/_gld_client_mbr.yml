@@ -1,0 +1,179 @@
+version: 2
+
+models:
+  - name: gld_client_mbr__hist_mbr_snapshot
+    description: "This table is an incremental client_mbr_summary, with key metrics and MoM calculations from august 2025."
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns: [program_code, country, snapshot_date]
+        warn_unenforced: false
+    
+    columns:
+      - name: snapshot_date
+        data_type: DATE
+        description: "The date when the MBR snapshot was taken. Used as the partitioning field."
+
+      - name: mbr_reference
+        data_type: STRING
+        description: "Monthly reference period (e.g., 'November 2025') for the metrics."
+
+      - name: phase
+        data_type: STRING
+        description: "Aggregated phase of the program (e.g., 'Ongoing', '0-6 MO. SINCE GRADUATION')."
+
+      - name: program_name
+        data_type: STRING
+        description: "Full name of the Amazon Program."
+
+      - name: program_code
+        data_type: STRING
+        description: "Unique identifier code for the program"
+
+      - name: country
+        data_type: STRING
+        description: "Country of the program, or 'EUR' for the European roll-up aggregation."
+
+      - name: start_date
+        data_type: DATE
+        description: "Official start date of the program."
+
+      - name: end_date
+        data_type: DATE
+        description: "Official end date of the program."
+
+      - name: months_since_completion
+        data_type: STRING
+        description: "Number of months since the program completion (may be 'Ongoing')."
+      
+      - name: admitted
+        data_type: INT64
+        description: "Total number of individuals admitted to the program."
+        
+      - name: enrolled_or_graduated
+        data_type: INT64
+        description: "Total number of individuals actively enrolled or who have graduated."
+        
+      - name: dropped_out
+        data_type: INT64
+        description: "Total number of individuals who dropped out of the program."
+        
+      - name: placed_fellows
+        data_type: INT64
+        description: "Number of fellows who achieved job placement (include Beyond)"
+        
+      - name: beyond
+        data_type: INT64
+        description: "Number of individuals in the 'Beyond' placement category."
+
+      - name: direct_beyond
+        data_type: INT64
+        description: "A job outcome that a learner earns as a direct result of participating in a specific company program (e.g., a subsequent program they joined)."
+
+      - name: indirect_beyond
+        data_type: INT64
+        description: "A job outcome attributed to a program because the placement platform applies every transition update across all programs a learner has taken, regardless of whether that program contributed to the placement."
+
+      - name: internal_hire
+        data_type: INT64
+        description: "Count of individuals placed via internal hiring"
+
+      - name: external_qualifying
+        data_type: INT64
+        description: "Count of individuals placed via external qualifying "
+
+      - name: internal_training
+        data_type: INT64
+        description: "Count of individuals placed into internal training roles"
+
+      - name: placement_rate
+        data_type: FLOAT64
+        description: "Calculated rate of Placed Fellows divided by Enrolled or Graduated."
+
+      - name: retention_rate
+        data_type: FLOAT64
+        description: "Calculated rate of Enrolled or Graduated divided by Admitted."
+
+      - name: run_rate
+        data_type: FLOAT64
+        description: "Normalized placement rate, considering duration (e.g., Placed Fellows / (Enrolled * Months Since Completion))."
+        
+      - name: certification_name
+        data_type: STRING
+        description: "Name of the sponsored industry certification associated with the program."
+
+      - name: certification_attempted
+        data_type: INT64
+        description: "Number of learners who attempted the certification"
+
+      - name: certification_received
+        data_type: INT64
+        description: "Total number of learners who received the certification"
+        
+      - name: percent_exam_attempted
+        data_type: FLOAT64
+        description: "Number of attempted out of eligibles: #Exam Attempted /#Cert Eligible"
+
+      - name: percent_of_graduated
+        data_type: FLOAT64
+        description: " Percent of Certifications received out of graduated learners: Certification_Received / `Enrolled or Graduated"
+
+      - name: job_transitions_with_certificate
+        data_type: INT64
+        description: "Number of placed fellows with a certificate (includes beyond transitions)"
+
+      - name: percent_of_job_transitions_with_certificate
+        data_type: FLOAT64
+        description: "Percent of job transitions with certificate out of placed fellows"
+
+      - name: external_qualifying_with_certificate
+        data_type: INT64
+        description: "Number of external qualifying transitions and with a certificate"
+
+      - name: internal_hire_with_certificate
+        data_type: INT64
+        description: "Number of  internal hire transitions and with a certificate"
+
+      - name: beyond_with_certificate
+        data_type: INT64
+        description: "Number of  beyond transitions and with a certificate"
+
+      - name: internal_training_with_certificate
+        data_type: INT64
+        description: "Number of  internal training transitions and with a certificate"
+
+      - name: cert_eligible
+        data_type: INT64
+        description: "Total number of individuals eligible for certification."
+
+      - name: program_revenue
+        data_type: FLOAT64
+        description: "Revenue generated by the program."
+
+      - name: cost_per_placement
+        data_type: FLOAT64
+        description: "Total program cost divided by the total number of Placed Fellows."
+
+      - name: cost_per_placement_without_beyond
+        data_type: FLOAT64
+        description: "Total program cost divided by Placed Fellows, excluding the 'Beyond' category."
+
+      - name: program_nps
+        data_type: FLOAT64
+        description: "Program's Net Promoter Score."
+        
+      - name: placed_without_indirect
+        data_type: INT64
+        description: "Count of placed fellows excluding the Indirect Beyond category."
+
+      - name: beyond_without_indirect
+        data_type: INT64
+        description: "Count of 'Beyond' fellows excluding the Indirect Beyond category."
+
+      - name: last_snapshot_ts_est
+        data_type: TIMESTAMP
+        description: "Timestamp of the latest model execution (in EST)."
+
+        
