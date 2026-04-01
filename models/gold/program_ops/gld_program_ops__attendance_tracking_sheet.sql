@@ -190,8 +190,8 @@ attendance_aggregated AS (
 fixed_exempts as ( --capturing exempts properly. 
 
 -- Exempt is when a learner already passed all the assessments and is exempt from future lessons 
--- There was an issue with the is_exempt flag comming from the gold_attendance_tracking_sheet at the time, it wasn't working properly.
--- Instead of "is_required" we need to shift for "is_optional" to create the condition. Since this maybe might change in the future, the stg_attendace_tracking_sheet keeps as it is for now
+-- There was an issue with the is_exempt flag comming from the main ref at the time, it wasn't working properly.
+-- Instead of "is_required" we need to shift for "is_optional" to create the condition. Since this maybe might change in the future, the stg_attendace_tracking keeps as it is for now
   with lessons as (
    SELECT DISTINCT
         lessons.lesson_id,
@@ -252,7 +252,7 @@ final_attendance AS (
      AS attendance,
     
        
-    -- Other fields
+    -- Other aditional fields
     MAX(has_excused_attendance) AS has_excused_attendance,
     CASE WHEN MAX(fe.optional)='true' THEN 'true' ELSE 'false' END AS is_exempt,
     MAX(attendance_percentage) AS attendance_percentage,
