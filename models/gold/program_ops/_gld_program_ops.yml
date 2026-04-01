@@ -1,244 +1,70 @@
 version: 2
 
 models:
-  - name: gld_program_operation__learner_tracking_sheet
-    description: "General tracking table for all learners in the program, with basic information and tracking of surveys submission."
+  - name: gld_program_operations__attendance
+    description: "This model summarizes participant attendance per program week per lesson"
     config:
-      contract:
+      materialized: table
+      contract: # Model contract (run BEFORE model is built)
         enforced: true
+    constraints:
+      - type: primary_key
+        columns: [program_code,primary_user_service_id,week_number,lesson_title]
+        warn_unenforced: false
     columns:
       - name: program_code
+        description: 'program_code '
         data_type: string
-        description: "{{ doc('program_code__description') }}"
 
-      - name: first_name
+
+      - name: week_number
+        description: 'Week number of the program from the program start date'
         data_type: string
-        description: "{{ doc('first_name__description') }}"
 
-      - name: last_name
+      - name: week_range
+        description: "Range of dates that week number correspond"
         data_type: string
-        description: "{{ doc('last_name__description') }}"
 
-      - name: full_name
+      - name: primary_user_service_id
+        description: "Primary user  id of the learner"
         data_type: string
-        description: "Learner full name"
 
-      - name: preferred_first_name
+      - name: participant_name
+        description: "Name of the learner"
         data_type: string
-        description: "Learner preferred first name"
 
-      - name: preferred_last_name
+      - name: participant_email
+        description: "Learner email"
         data_type: string
-        description: "Learner preferred last name"
 
-      - name: training_site_email
+      - name: lesson_title
+        description: "Title of the lesson for that given week"
         data_type: string
-        description: "{{ doc('email__description') }}. This email comes from program_service."
 
-      - name: application_id
-        data_type: int64
-        description: "Application id"
-
-      - name: auth0_uuid
+      - name: week_attendance
+        description: "Flag that identify if the learner is absent or attended that given lesson. If the attendance_percentage is under 50% it will show as absent"
         data_type: string
-        description: "Internal auth0 id"
 
-      - name: sma_email
-        data_type: string
-        description: "{{ doc('email__description') }}. This email comes from SMA."
-
-      - name: applicant_preferred_email_address
-        data_type: string
-        description: "Learner preferred email"
-
-      - name: user_service_id
-        data_type: string
-        description: "{{ doc('user_service_id__description') }}"
-
-      - name: training_site_status
-        data_type: string
-        description: "Training site status"
-
-      - name: graduation_status
-        data_type: string
-        description: "Learner graduation status in program admin app"
-
-      - name: phone
-        data_type: string
-        description: "Learner phone"
-
-      - name: gender
-        data_type: string
-        description: "Learner gender"
-
-      - name: date_of_birth
-        data_type: date
-        description: "{{ doc('birth_date__description') }}"
-
-      - name: country
-        data_type: string
-        description: "Learner country"
-
-      - name: current_labels
-        data_type: string
-        description: "Learner current labels"
-
-      - name: current_stage
-        data_type: string
-        description: "Learner current stage"
-
-      - name: team_name
-        data_type: string
-        description: "Learner team name on the cohort"
-
-      - name: CSC_name
-        data_type: string
-        description: "CSC Name"
-
-      - name: CSC_email
-        data_type: string
-        description: "CSC email"
-
-      - name: First_TA_Name
-        data_type: string
-        description: "First TA name"
-
-      - name: First_TA_Email
-        data_type: string
-        description: "First TA email"
-
-      - name: Second_TA_Name
-        data_type: string
-        description: "Second TA name"
-
-      - name: Second_TA_Email
-        data_type: string
-        description: "Second TA email"
-
-      - name: Early_Survey_Submission
-        data_type: string
-        description: "Was early survey submitted?"
-
-      - name: MidPoint_Survey_Submission
-        data_type: string
-        description: "Was midpoint survey submitted?"
-
-      - name: Exit_Survey_Submission
-        data_type: string
-        description: "Was exit survey submitted?"
-
-      - name: early_nps_category
-        data_type: string
-        description: "Learner’s NPS classification (Promoter, Passive, or Detractor) based on their response in the Early Survey"
-
-      - name: mid_nps_category
-        data_type: string
-        description: "Learner’s NPS classification (Promoter, Passive, or Detractor) based on their response in the MMid Survey"
-
-      - name: exit_nps_category
-        data_type: string
-        description: "Learner’s NPS classification (Promoter, Passive, or Detractor) based on their response in the Exit Survey"
-
-      - name: first_missed_date
-        data_type: date
-        description: "Date of the first lecture the learner missed in the streak"
-
-      - name: last_missed_date
-        data_type: date
-        description: "Date of the last lecture the learner missed in the streak "
-
-      - name: absences_in_streak
-        data_type: int64
-        description: "Number of absences in a streak"
-
-      - name: had_submission_during_streak
+      - name: has_excused_attendance
+        description: "Flag that identify if the learner has a excused attendance for that given lesson"
         data_type: boolean
-        description: "Boolean flag indicating whether the learner submitted work during their absence streak"
-    
-      - name: most_recent_submission_in_streak
-        data_type: date
-        description: "Date of the most recent submission in the streak"
 
-      - name: met_with_expert_during_streak
+      - name: is_exempt
+        description: "Flag that identify if the learner is exempt from that lesson"
+        data_type: string
+
+      - name: has_waived_attendance
+        description: "Flag that identify if the learner has waived attendance for that lesson"
         data_type: boolean
-        description: "Boolean flag indicating whether the learner met with expert during their absence streak"
 
-      - name: most_recent_meeting_with_expert_during_streak
-        data_type: date
-        description: "Date of the most recent meeting with expert during the streak"
-
-      - name: has_absence_streak_ended
+      - name: attendance_percentage
+        description: "The percentage of time the learner was present during the lesson."
+        data_type: float
+        
+      - name: is_exempt
+        description: "Flag that identify if the learner is exempt from that lesson"
         data_type: boolean
-        description: "Boolean flag indicating whether the learner absence streak ended or not"
 
-      - name: date_absence_streak_ended
-        data_type: date
-        description: "Date when the absence streak ended "
-
-      - name: activity_status
+      - name: attendance_overall_status
+        description: "Final status considering excused, waived, exempt cases and flagging when is attended but under 50%"
         data_type: string
-        description: "Shows if a learner with an absence streak is Active or Inactive" 
-
-      - name: learner_resume_storage_link
-        data_type: string
-        description: "Url to access learner resume(s) saved in GCS. Must be logged with company account to access it"   
-
-      - name: total_meetings
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled per learner per program"
-
-      - name: total_meetings_with_csc
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled with csc per learner per program"
-
-      - name: total_meetings_last_30d
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled per learner per program for the past 30 days in a row"
-      
-      - name: total_meetings_last_30d_with_csc
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled with csc per learner per program for the past 30 days in a row"
-
-      - name: total_meetings_no_show
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled per learner per program with  no-show"
-
-      - name: total_meetings_no_show_with_csc
-        data_type: integer
-        description: "Total amount of calendly meetings scheduled per learner per program with no-show"
-
-      - name: total_meetings_cancelled
-        data_type: integer
-        description: "Total amount of calendly meetings cancelled per learner per program"
-
-      - name: total_meetings_cancelled_with_csc
-        data_type: integer
-        description: "Total amount of calendly meetings with csc cancelled  per learner per program"
-
-      - name: most_recent_note_interaction
-        data_type: string
-        description: "Most recent note from expert app regarding the learner-expert interaction"
-
-      - name: slack_user_id
-        data_type: string
-        description: "slack user id per learner per program"
-
-      - name: slack_workspace
-        data_type: string
-        description: "slack workspace per learner per program"
-
-      - name: slack_display_name
-        data_type: string
-        description: "slack display name per learner per program"
-
-      - name: slack_total_interactions
-        data_type: integer
-        description: "Sum of learner interactions on slack per program. What counts as a interaction: messages_posted, messages_posted_in_channel, reactions_added, total_calls"
-
-      - name: slack_total_interactions_last_30d
-        data_type: integer
-        description: "Sum of learner interactions on slack per program for the past 30 days in a row"
-      
-      - name: slack_user_last_active_ts
-        data_type: timestamp
-        description: "Learner last active date on slack"
