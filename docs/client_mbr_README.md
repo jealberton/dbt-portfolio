@@ -35,16 +35,6 @@ This is the company's most significant client, with a wide variety of programs. 
           brz_client_mbr__platform_program_names-mapping --> platform_learners
           slv_program_service__programs --> platform_learners
   ```
-
-### `certification_updates`
-- **Dependencies**:
-  ```mermaid
-      graph LR
-        certification_updates["certification_updates"]
-        gld_client_mbr__client_mbr_summary --> certification_updates
-        gld_client_mbr__platform_learners --> certification_updates
- ```
-
 ### `hist_mbr_snapshot`
 - **Dependencies**:
   ```mermaid
@@ -56,19 +46,23 @@ This is the company's most significant client, with a wide variety of programs. 
         gld_client_mbr__certification_updates --> hist_mbr_snapshot
   ```
 
+### `certification_updates`
+- **Dependencies**:
+  ```mermaid
+      graph LR
+        certification_updates["certification_updates"]
+        gld_client_mbr__client_mbr_summary --> certification_updates
+        gld_client_mbr__platform_learners --> certification_updates
+ ```
+
+
 
 
 ## Example Queries
 
-### 1. Check ongoing programs per country
-Retrieve ongoing programs for the current month:
-```sql
-SELECT program_code, country  
-FROM `proj-nprd-002.gold_client_mbr.client_mbr_summary`  
-WHERE months_since_completion = 'Ongoing';
 ```
 
-### 2. Check Historical Snapshot Data
+### 1. Check Historical Snapshot Data
 Review the ordered history of snapshots:
 ```sql
 SELECT *  
@@ -80,5 +74,13 @@ ORDER BY
         ELSE SAFE_CAST(months_since_completion AS INT64)  
     END,  
     program_code ASC;
+
+```
+### 2. Check ongoing programs per country
+Retrieve ongoing programs for the current month:
+```sql
+SELECT program_code, country  
+FROM `proj-nprd-002.gold_client_mbr.client_mbr_summary`  
+WHERE months_since_completion = 'Ongoing';
 
 ```
