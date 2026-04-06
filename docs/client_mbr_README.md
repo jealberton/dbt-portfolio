@@ -43,7 +43,7 @@ This is the company's most significant client, with a wide variety of programs. 
         certification_updates["certification_updates"]
         gld_client_mbr__client_mbr_summary --> certification_updates
         gld_client_mbr__platform_learners --> certification_updates
-          ```
+ ```
 
 ### `hist_mbr_snapshot`
 - **Dependencies**:
