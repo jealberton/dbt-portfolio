@@ -3,7 +3,7 @@
 - [Models Overview](#models-overview)
   - [Dataset: `gld_client_mbr`](#dataset-gld_client_mbr)
   - [`client_mbr_summary`](#client_mbr_summary)
-  - [`ccsp_learners`](#ccsp_learners)
+  - [`platform_learners`](#platform_learners)
   - [`certification_updates`](#certification_updates)
 - [Example Queries](#example-queries)
   - [1. Check ongoing programs per country](#1-check-ongoing-programs-per-country)
@@ -21,7 +21,7 @@ This is the company's most significant client, with a wide variety of programs. 
           client_mbr_summary["client_mbr_summary"]
           gld_job_outcomes__outcomes_master_table --> client_mbr_summary
           stg_client_mbr__program_nps --> client_mbr_summary
-          stg_client_mbr__ccsp_aggregated --> client_mbr_summary  
+          stg_client_mbr__platform_aggregated --> client_mbr_summary  
   ```
 ### `platform_learners`
 - **Dependencies**:
@@ -42,7 +42,7 @@ This is the company's most significant client, with a wide variety of programs. 
       graph LR
         certification_updates["certification_updates"]
         gld_client_mbr__client_mbr_summary --> certification_updates
-        gld_client_mbr__ccsp_learners --> certification_updates
+        gld_client_mbr__platform_learners --> certification_updates
           ```
 
 ### `hist_mbr_snapshot`
